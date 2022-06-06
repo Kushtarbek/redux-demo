@@ -1,17 +1,40 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import {createStore} from 'redux';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+const reducer = (state =0, action) => {
+    // if(action.type === 'INCREMENT'){
+    //     return state + 1;
+    // } else if(action.type === 'DECREMENT'){
+    //     return state - 1;
+    // }
+    //     return state;
+    //}
+    switch (action.type) {
+        case 'INCREMENT':
+            return state + action.payload;
+        case 'DECREMENT':
+            return state - action.payload;
+        default:
+            return state;
+    }
+        //common practice to use switch cases inside the reducer
+}
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+
+const store = createStore(reducer);
+
+store.subscribe(() => {
+    console.log('current state', store.getState());
+})
+
+store.dispatch({
+    type: 'INCREMENT',
+    payload: 1
+});
+store.dispatch({
+    type: 'INCREMENT',
+    payload: 5
+});
+store.dispatch({
+    type: 'DECREMENT',
+    payload: 2
+});
